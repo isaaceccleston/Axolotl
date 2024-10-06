@@ -4,28 +4,48 @@
 [ext_resource type="Texture2D" uid="uid://cq4gkrmu7t1a2" path="res://icon.svg" id="1_lvunr"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_lx4j1"]
-size = Vector2(1152, 20)
+size = Vector2(1880, 20)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_7both"]
+size = Vector2(20, 1080)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_dg2bv"]
 size = Vector2(128, 128)
-
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_7both"]
-size = Vector2(20, 608)
 
 [node name="Node2D" type="Node2D"]
 
 [node name="StaticBody2D2" type="StaticBody2D" parent="."]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D2"]
-position = Vector2(576, 628)
+position = Vector2(940, 1060)
 scale = Vector2(1, 2)
 shape = SubResource("RectangleShape2D_lx4j1")
 
+[node name="ColorRect" type="ColorRect" parent="StaticBody2D2"]
+offset_top = 1040.0
+offset_right = 40.0
+offset_bottom = 1080.0
+scale = Vector2(47.0001, 0.999241)
+
+[node name="StaticBody2D" type="StaticBody2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D"]
+position = Vector2(1900, 540)
+scale = Vector2(2, 1)
+shape = SubResource("RectangleShape2D_7both")
+
+[node name="ColorRect" type="ColorRect" parent="StaticBody2D"]
+offset_left = 1880.0
+offset_right = 1920.0
+offset_bottom = 40.0
+scale = Vector2(1.01242, 26.9995)
+
 [node name="CharacterBody2D" type="CharacterBody2D" parent="."]
 position = Vector2(79, 68)
+scale = Vector2(1, 1)
 script = ExtResource("1_0y1hj")
-moveSpeed = 2.0
-gravity = 9.8
+moveSpeed = 200.0
+gravity = 980.0
 
 [node name="Sprite2D" type="Sprite2D" parent="CharacterBody2D"]
 scale = Vector2(0.5, 0.5)
@@ -34,10 +54,3 @@ texture = ExtResource("1_lvunr")
 [node name="CollisionShape2D" type="CollisionShape2D" parent="CharacterBody2D"]
 scale = Vector2(0.5, 0.5)
 shape = SubResource("RectangleShape2D_dg2bv")
-
-[node name="StaticBody2D" type="StaticBody2D" parent="."]
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D"]
-position = Vector2(1131, 304)
-scale = Vector2(2, 1)
-shape = SubResource("RectangleShape2D_7both")

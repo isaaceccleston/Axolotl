@@ -14,8 +14,13 @@ public partial class Player : CharacterBody2D
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
 	public override void _Process(double delta)
 	{
-		Velocity = new Vector2(moveSpeed*100, gravity*100);
+		// Walk
+		Velocity = new Vector2(moveSpeed, gravity);
 
+		Vector2 mousePos = GetViewport().GetMousePosition();
+		if(Input.IsMouseButtonPressed(MouseButton.Left)){
+			Position = mousePos;
+		}
 
 		MoveAndSlide();
 	}
