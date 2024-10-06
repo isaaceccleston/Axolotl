@@ -1,3 +1,4 @@
+using System.Diagnostics;
 using System.IO.Pipes;
 using Godot;
 
@@ -19,7 +20,9 @@ public partial class Player : CharacterBody2D
 
 		Vector2 mousePos = GetViewport().GetMousePosition();
 		if(Input.IsMouseButtonPressed(MouseButton.Left)){
-			Position = mousePos;
+			mousePos.X -= mousePos.X % 64;
+			mousePos.Y -= mousePos.Y % 64;
+			Position = mousePos;	
 		}
 
 		MoveAndSlide();
