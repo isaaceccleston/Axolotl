@@ -18,12 +18,12 @@ public partial class Player : CharacterBody2D
 		// Walk
 		Velocity = new Vector2(moveSpeed, gravity);
 
-		Vector2 mousePos = GetViewport().GetMousePosition();
-		if(Input.IsMouseButtonPressed(MouseButton.Left)){
-			mousePos.X -= mousePos.X % 64;
-			mousePos.Y -= mousePos.Y % 64;
-			Position = mousePos;	
-		}
+		// Vector2 mousePos = GetViewport().GetMousePosition();
+		// if(Input.IsMouseButtonPressed(MouseButton.Left)){
+		// 	mousePos.X -= mousePos.X % 64;
+		// 	mousePos.Y -= mousePos.Y % 64;
+		// 	Position = mousePos;	
+		// }
 
 		MoveAndSlide();
 	}
