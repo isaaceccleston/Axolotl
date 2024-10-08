@@ -1,58 +1,53 @@
 using Godot;
-using System.Collections.Generic;
 
 public partial class MapBody : StaticBody2D
 {
-	Vector2 mousePos;
 	Vector2 cornerA;
 	Vector2 cornerB;
+	Vector2 rectSize;
 	bool drawing = false;
-	List<CollisionShape2D> kids = new List<CollisionShape2D>();
 
 	// Called when the node enters the scene tree for the first time.
-	public override void _Ready()
-	{
-		
-		// for (int i = 0; i < GetChildCount(); i++)
-		// {
-		// 	if(GetChild(i) is CollisionShape2D){
-		// 		kids.Add((CollisionShape2D)GetChild(i));
-		// 	}
-		// }
-	}
+	public override void _Ready(){}
 
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
 	public override void _Process(double delta)
 	{
-		mousePos = GetViewport().GetMousePosition();
-		Vector2 snappedMousePos = new Vector2(mousePos.X - mousePos.X % 64, mousePos.Y - mousePos.Y % 64);
 
 		if(Input.IsActionJustPressed("Mouse1")){
 			if(!drawing){
-				cornerA = snappedMousePos;
+				cornerA = snapToInterval(GetViewport().GetMousePosition(), 32);
 				drawing = true;
 			}
 			else{
-				cornerB = snappedMousePos;
+				cornerB = snapToInterval(GetViewport().GetMousePosition(), 32);
 				drawing = false;
 
-				CollisionShape2D newColl = new CollisionShape2D();
-				RectangleShape2D rect = new RectangleShape2D();
-				rect.Size = cornerB - cornerA;
-				newColl.Shape = rect;
-				newColl.Position = cornerA;
-				AddChild(newColl);
+				rectSize = cornerB - cornerA;
 
-				QueueRedraw();
+				CollisionShape2D newCollider = new CollisionShape2D();
+				RectangleShape2D colliderRect = new RectangleShape2D();
+				ColorRect newRect = new ColorRect();
+				
+				colliderRect.Size = cornerB - cornerA;	
+				newCollider.Shape = colliderRect;
+				Vector2 adjustedPosition = new Vector2(cornerA.X + rectSize.X / 2, cornerA.Y + rectSize.Y / 2);
+				newCollider.Position = adjustedPosition;
+
+				newRect.Size = colliderRect.Size;
+				newRect.Color = Colors.White;
+				newRect.Position = -rectSize / 2;
+				
+				AddChild(newCollider);
+				newCollider.AddChild(newRect);
 			}
 		}
 	}
 
-    public override void _Draw()
-    {
-		//works but maybe not good that it does? doesnt do what i want really..
-		Color white = Colors.White;
-		Rect2 rect = new Rect2(cornerA, cornerB-cornerA);
-		DrawRect(rect, white);
-    }
+	public static Vector2 snapToInterval(Vector2 coords, int interval){
+		float x = coords.X - (coords.X % interval);
+		float y = coords.Y - (coords.Y % interval);
+
+		return new Vector2(x, y);
+	}
 }
