@@ -1,10 +1,11 @@
+using System;
+using System.Drawing;
 using Godot;
 
 public partial class MapBody : StaticBody2D
 {
-	Vector2 cornerA;
-	Vector2 cornerB;
-	Vector2 rectSize;
+	Vector2 positionOne = new Vector2();
+	Vector2 positionTwo = new Vector2();
 	bool drawing = false;
 
 	// Called when the node enters the scene tree for the first time.
@@ -13,33 +14,34 @@ public partial class MapBody : StaticBody2D
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
 	public override void _Process(double delta)
 	{
+		CollisionShape2D collider = new CollisionShape2D();
+		RectangleShape2D collisionRect = new RectangleShape2D();
+		ColorRect visibleRect = new ColorRect();
+		Vector2 rectSize;
 
 		if(Input.IsActionJustPressed("Mouse1")){
 			if(!drawing){
-				cornerA = snapToInterval(GetViewport().GetMousePosition(), 32);
+				positionOne = snapToInterval(GetViewport().GetMousePosition(), 32);
 				drawing = true;
 			}
 			else{
-				cornerB = snapToInterval(GetViewport().GetMousePosition(), 32);
+				positionTwo = snapToInterval(GetViewport().GetMousePosition(), 32);
 				drawing = false;
 
-				rectSize = cornerB - cornerA;
-
-				CollisionShape2D newCollider = new CollisionShape2D();
-				RectangleShape2D colliderRect = new RectangleShape2D();
-				ColorRect newRect = new ColorRect();
+				rectSize = new Vector2(Math.Abs(positionTwo.X - positionOne.X), Math.Abs(positionTwo.Y - positionOne.Y));
 				
-				colliderRect.Size = cornerB - cornerA;	
-				newCollider.Shape = colliderRect;
-				Vector2 adjustedPosition = new Vector2(cornerA.X + rectSize.X / 2, cornerA.Y + rectSize.Y / 2);
-				newCollider.Position = adjustedPosition;
+				Vector2 topLeft = new Vector2(Math.Min(positionOne.X, positionTwo.X), Math.Min(positionOne.Y, positionTwo.Y));
 
-				newRect.Size = colliderRect.Size;
-				newRect.Color = Colors.White;
-				newRect.Position = -rectSize / 2;
-				
-				AddChild(newCollider);
-				newCollider.AddChild(newRect);
+				collisionRect.Size = rectSize;
+				collider.Shape = collisionRect;
+				collider.Position = new Vector2(topLeft.X + rectSize.X / 2, topLeft.Y + rectSize.Y / 2);
+
+				visibleRect.Size = rectSize;
+				visibleRect.Color = Colors.White;
+				visibleRect.Position = -rectSize / 2;
+
+				AddChild(collider);
+				collider.AddChild(visibleRect);
 			}
 		}
 	}

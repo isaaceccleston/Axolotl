@@ -1,8 +1,9 @@
-[gd_scene load_steps=6 format=3 uid="uid://dn1eweebnocm5"]
+[gd_scene load_steps=7 format=3 uid="uid://dn1eweebnocm5"]
 
 [ext_resource type="Script" path="res://Scripts/Player.cs" id="1_0y1hj"]
 [ext_resource type="Texture2D" uid="uid://cq4gkrmu7t1a2" path="res://icon.svg" id="1_lvunr"]
 [ext_resource type="Script" path="res://Scripts/MapBody.cs" id="1_xml2r"]
+[ext_resource type="Script" path="res://Scripts/Grid.cs" id="4_1l8lo"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_xl4vf"]
 size = Vector2(1920, 32)
@@ -11,6 +12,9 @@ size = Vector2(1920, 32)
 size = Vector2(128, 128)
 
 [node name="Node2D" type="Node2D"]
+
+[node name="Grid" type="Node2D" parent="."]
+script = ExtResource("4_1l8lo")
 
 [node name="StaticBody2D2" type="StaticBody2D" parent="."]
 script = ExtResource("1_xml2r")
